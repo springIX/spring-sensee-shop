@@ -1,0 +1,62 @@
+$font-kr: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+
+
+@mixin fontSize($size) {
+  font-size: clamp(10px, $size, 999rem);
+}
+
+// Layout inner
+$layout_inner: 198rem;
+$layout_inner_m: 20rem;
+$layout_inner_pc_more: calc(50vw - 762px);
+
+// Primary color
+$color-white: #ffffff;
+$color-black: #000000;
+
+// Secondary color
+$color-purple: #68009A;
+
+/* Responsive */
+@mixin screen($size) {
+  @if $size == "pc_more" {
+    @media (min-width: 1921px) {
+      @content;
+    }
+  } @else if $size == "pc_only" {
+    @media (min-width: 751px) and (max-width: 1920px) {
+      @content;
+    }
+  } @else if $size == "pc" {
+    @media (min-width: 751px) {
+      @content;
+    }
+  } @else if $size == "tb" {
+    @media (max-width: 1280px) {
+      @content;
+    }
+  } @else if $size == "tb_only" {
+    @media (min-width: 751px) and (max-width: 1280px) {
+      @content;
+    }
+  } @else if $size == "mo" {
+    @media (max-width: 750px) {
+      @content;
+    }
+  }
+}
+
+/* Ellipsis */
+@mixin ellip($col: 1) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  @if ($col == 1) {
+    white-space: nowrap;
+  } @else {
+    white-space: unset;
+    display: -webkit-box;
+    box-orient: vertical;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: $col;
+  }
+}

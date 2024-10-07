@@ -1,0 +1,36 @@
+.btn {
+  display: inline-block;
+  font-size: 16rem;
+  font-weight: bold;
+  padding: 26rem 40rem;
+  text-decoration: none;
+  border-radius: 50rem;
+  width: 245rem;
+}
+.btn.btn_black {
+  background-color: #000000;
+  color: #fff;
+}
+.btn.btn_white {
+  background-color: #fff;
+  color: #000000;
+}
+.btn.btn_arrow_white, .btn.btn_arrow_black {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.btn.btn_arrow_white::after, .btn.btn_arrow_black::after {
+  content: "";
+  display: inline-block;
+  width: 24rem;
+  height: 24rem;
+}
+.btn.btn_arrow_white::after {
+  background: url("../images/ico_arrow_white.svg") no-repeat center;
+  background-size: cover;
+}
+.btn.btn_arrow_black::after {
+  background: url("../images/ico_arrow_black.svg") no-repeat center;
+  background-size: cover;
+}
