@@ -129,21 +129,44 @@ picture {
   width: 100%;
 }
 
-@media (min-width: 751px) and (max-width: 1920px) {
+@media (min-width: 769px) and (max-width: 1920px) {
   html {
     font-size: 0.0520833318vw;
   }
 }
-@media (max-width: 1280px) {
+@media (max-width: 1024px) {
   body {
     font-size: clamp(10px, 20rem, 999rem);
   }
 }
-@media (max-width: 750px) {
+@media (max-width: 768px) {
   body {
     font-size: clamp(10px, 14rem, 999rem);
     line-height: 1.72;
     padding-bottom: 0 !important;
+  }
+}
+/* 모바일에서만 보이는 요소 */
+.mobile-only {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-only {
+    display: block;
+  }
+  .pc-only {
+    display: none;
+  }
+}
+/* PC에서만 보이는 요소 */
+.pc-only {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .pc-only {
+    display: none;
   }
 }
 .layout_full {
@@ -172,11 +195,10 @@ picture {
   color: #68009A;
 }
 
-/* Top 버튼 스타일 */
 .top-button {
-  position: fixed; /* 스크롤해도 버튼이 고정된 위치에 표시 */
-  bottom: 40rem; /* 화면 하단에서 20px 위에 배치 */
-  right: 40rem; /* 화면 오른쪽에서 20px 왼쪽에 배치 */
+  position: fixed;
+  bottom: 40rem;
+  right: 40rem;
   width: 60rem;
   height: 60rem;
   background-color: #121212;
@@ -184,9 +206,9 @@ picture {
   border: none;
   border-radius: 50rem;
   cursor: pointer;
-  transform: translateX(200%); /* 초기 상태에서는 화면 밖으로 이동 */
-  visibility: hidden; /* 초기 상태에서는 보이지 않도록 설정 */
-  transition: transform 0.3s ease, visibility 0.3s ease; /* 버튼 나타나는 애니메이션 */
+  transform: translateX(200%);
+  visibility: hidden;
+  transition: transform 0.3s ease, visibility 0.3s ease;
 }
 .top-button::before {
   content: "";
@@ -201,7 +223,6 @@ picture {
   transform: translate(-50%, -50%);
 }
 
-/* 스크롤할 때 버튼이 나타나는 상태 */
 .top-button.show {
   transform: translateX(0);
   visibility: visible;
@@ -211,26 +232,50 @@ picture {
   width: 100%;
   height: 100%;
 }
-#content .swiper-slide img {
+
+.main .main_kvisual {
+  width: 100%;
+  height: 742rem;
+  /* 진행 바 스타일 */
+  /* 진행 바 활성화 시 scaleX 변경 */
+}
+@media (max-width: 768px) {
+  .main .main_kvisual {
+    height: 100vh;
+    overflow: hidden;
+  }
+}
+.main .main_kvisual .swiper-slide {
+  position: relative;
+  background-color: #F2F3F3;
+}
+.main .main_kvisual .swiper-slide .image-area {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+.main .main_kvisual .swiper-slide .image-area::after {
+  display: block;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 21.3333333333vw;
+  background: linear-gradient(360deg, rgba(242, 243, 243, 0) 0%, rgb(242, 243, 243) 100%);
+  z-index: 1;
+}
+.main .main_kvisual .swiper-slide img {
   display: block;
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
 }
-
-.main .main_kvisual {
-  width: 100%;
-  height: 742rem;
-}
-.main .main_kvisual .swiper-slide {
-  position: relative;
-}
-.main .main_kvisual .swiper-slide .slide_image {
-  width: 100%;
-  height: 100%;
-  -o-object-fit: cover;
-     object-fit: cover;
+@media (max-width: 768px) {
+  .main .main_kvisual .swiper-slide img {
+    height: auto;
+  }
 }
 .main .main_kvisual .swiper-slide .floating_area {
   position: absolute;
@@ -240,6 +285,12 @@ picture {
   transform: translateX(-50%);
   padding: 0 20rem;
   z-index: 9;
+}
+@media (max-width: 768px) {
+  .main .main_kvisual .swiper-slide .floating_area {
+    max-width: 100%;
+    top: 60px;
+  }
 }
 .main .main_kvisual .swiper-slide .slide_content {
   color: #121212;
@@ -251,13 +302,26 @@ picture {
   font-size: 72rem;
   line-height: 98rem;
 }
+@media (max-width: 768px) {
+  .main .main_kvisual .swiper-slide .slide_content .kv_title {
+    font-size: 40px;
+    line-height: 48px;
+    margin-bottom: 16px;
+  }
+}
 .main .main_kvisual .swiper-slide .slide_content .kv_title .underline {
-  box-shadow: inset 0px -38rem 0px 0px #F7A035;
+  box-shadow: inset 0px -38rem 0px 0px #f7a035;
 }
 .main .main_kvisual .swiper-slide .slide_content .kv_text {
   font-size: 28rem;
   font-weight: 500;
   margin-bottom: 100rem;
+}
+@media (max-width: 768px) {
+  .main .main_kvisual .swiper-slide .slide_content .kv_text {
+    font-size: 16px;
+    margin-bottom: 37px;
+  }
 }
 .main .main_kvisual .swiper1 .swiper-nav-wrap {
   position: absolute;
@@ -275,6 +339,21 @@ picture {
   z-index: 9;
   border-radius: 50rem;
   padding: 11rem 0 11rem 23rem;
+}
+@media (max-width: 768px) {
+  .main .main_kvisual .swiper1 .swiper-nav-wrap {
+    position: relative;
+    background-color: unset;
+    border: none;
+    -webkit-backdrop-filter: none;
+            backdrop-filter: none;
+    bottom: 77rem;
+    width: 100%;
+    height: auto;
+    right: auto;
+    padding: 0 24rem;
+    justify-content: space-between;
+  }
 }
 .main .main_kvisual .swiper1 .swiper-pagination1 {
   position: relative;
@@ -297,6 +376,24 @@ picture {
   margin: 0;
   top: 50%;
   transform: translateY(-50%);
+}
+@media (max-width: 768px) {
+  .main .main_kvisual .swiper1 .swiper-button-next1,
+  .main .main_kvisual .swiper1 .swiper-button-prev1 {
+    position: absolute;
+    top: unset;
+    transform: unset;
+  }
+}
+@media (max-width: 768px) {
+  .main .main_kvisual .swiper1 .swiper-button-next1 {
+    right: 24px;
+  }
+}
+@media (max-width: 768px) {
+  .main .main_kvisual .swiper1 .swiper-button-prev1 {
+    left: 24px;
+  }
 }
 .main .main_kvisual .swiper1 .swiper-button-prev1:after,
 .main .main_kvisual .swiper1 .swiper-button-next1:after {
@@ -329,8 +426,37 @@ picture {
   align-items: center;
   top: 1rem;
 }
+@media (max-width: 768px) {
+  .main .main_kvisual .swiper1 .swiper-pagination-fraction {
+    display: none;
+  }
+}
 .main .main_kvisual .swiper1 .swiper-pagination-fraction .swiper-pagination-current {
   color: #121212;
+}
+.main .main_kvisual .swiper1 .pagi {
+  width: calc(100% - 48px);
+  height: 1px;
+  background-color: #121212;
+  position: relative;
+  bottom: 13px;
+  z-index: 9;
+  margin: 0 24px;
+}
+.main .main_kvisual .swiper1 .pagi .progress {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform-origin: left;
+  transform: scaleX(0);
+  background-color: #fff;
+  transition: transform 3s ease;
+}
+.main .main_kvisual .swiper1 .pagi.active .progress {
+  transform: scaleX(1);
 }
 .main .main_tab_wrap {
   padding: 160rem 0;
@@ -410,7 +536,7 @@ picture {
 .main .main_tab_wrap .tab_contents .swiper .swiper-wrapper .slide_content_wrap .product_price_wrap .product_price.discounted {
   font-weight: 500;
   text-decoration: line-through; /* 세일 가격이 있을 때 줄 긋기 */
-  color: #AFAFAF;
+  color: #afafaf;
 }
 .main .main_tab_wrap .tab_contents .swiper .swiper-wrapper .slide_content_wrap .product_price_wrap .product_discount {
   font-size: 22rem;
@@ -471,7 +597,7 @@ picture {
   display: block;
 }
 .main .main_about_section {
-  background-color: #F0D1FF;
+  background-color: #f0d1ff;
   padding: 160rem 0 130rem;
 }
 .main .main_about_section .layout_visual {
@@ -479,7 +605,7 @@ picture {
   flex-direction: row;
   justify-content: space-between;
 }
-@media (max-width: 750px) {
+@media (max-width: 768px) {
   .main .main_about_section .layout_visual {
     flex-direction: column;
   }
@@ -502,6 +628,12 @@ picture {
 .main .main_about_section .about_img-wrap {
   width: 941rem;
   height: 715rem;
+}
+@media (max-width: 768px) {
+  .main .main_about_section .about_img-wrap {
+    width: 100%;
+    height: auto;
+  }
 }
 .main .main_about_section .about_img-wrap img {
   width: 100%;

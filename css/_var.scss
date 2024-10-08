@@ -24,23 +24,23 @@ $color-purple: #68009A;
       @content;
     }
   } @else if $size == "pc_only" {
-    @media (min-width: 751px) and (max-width: 1920px) {
+    @media (min-width: 769px) and (max-width: 1920px) {
       @content;
     }
   } @else if $size == "pc" {
-    @media (min-width: 751px) {
+    @media (min-width: 769px) {
       @content;
     }
   } @else if $size == "tb" {
-    @media (max-width: 1280px) {
+    @media (max-width: 1024px) {
       @content;
     }
   } @else if $size == "tb_only" {
-    @media (min-width: 751px) and (max-width: 1280px) {
+    @media (min-width: 769px) and (max-width: 1024px) {
       @content;
     }
   } @else if $size == "mo" {
-    @media (max-width: 750px) {
+    @media (max-width: 768px) {
       @content;
     }
   }

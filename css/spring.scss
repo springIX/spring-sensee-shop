@@ -138,6 +138,32 @@ picture {
   }
 }
 
+/* 모바일에서만 보이는 요소 */
+.mobile-only {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-only {
+    display: block;
+  }
+
+  .pc-only {
+    display: none;
+  }
+}
+
+/* PC에서만 보이는 요소 */
+.pc-only {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .pc-only {
+    display: none;
+  }
+}
+
 .layout_full {
   position: relative;
   width: 100%;
@@ -161,11 +187,12 @@ picture {
   color: $color-purple;
 }
 
-/* Top 버튼 스타일 */
+// head 스타일
+
 .top-button {
-  position: fixed; /* 스크롤해도 버튼이 고정된 위치에 표시 */
-  bottom: 40rem; /* 화면 하단에서 20px 위에 배치 */
-  right: 40rem; /* 화면 오른쪽에서 20px 왼쪽에 배치 */
+  position: fixed;
+  bottom: 40rem;
+  right: 40rem;
   width: 60rem;
   height: 60rem;
   background-color: #121212;
@@ -173,9 +200,9 @@ picture {
   border: none;
   border-radius: 50rem;
   cursor: pointer;
-  transform: translateX(200%); /* 초기 상태에서는 화면 밖으로 이동 */
-  visibility: hidden; /* 초기 상태에서는 보이지 않도록 설정 */
-  transition: transform 0.3s ease, visibility 0.3s ease; /* 버튼 나타나는 애니메이션 */
+  transform: translateX(200%);
+  visibility: hidden;
+  transition: transform 0.3s ease, visibility 0.3s ease;
   &::before {
     content: "";
     display: block;
@@ -190,23 +217,15 @@ picture {
   }
 }
 
-/* 스크롤할 때 버튼이 나타나는 상태 */
 .top-button.show {
   transform: translateX(0);
   visibility: visible;
 }
 
-
 #content {
   .swiper {
     width: 100%;
     height: 100%;
-  }
-  .swiper-slide img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
   }
 }
 
@@ -215,12 +234,37 @@ picture {
   .main_kvisual {
     width: 100%;
     height: 742rem;
+    @include screen("mo") {
+      height: 100vh;
+      overflow: hidden;
+    }
     .swiper-slide {
       position: relative;
-      .slide_image {
+      background-color: #F2F3F3;
+      .image-area {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        &::after {
+          display: block;
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 21.3333333333vw;
+          background: linear-gradient(360deg, rgba(242, 243, 243, 0) 0%, rgb(242, 243, 243) 100%);
+          z-index: 1;
+        }
+      }
+      img {
+        display: block;
         width: 100%;
         height: 100%;
         object-fit: cover;
+        @include screen("mo") {
+          height: auto;
+        }
       }
       .floating_area {
         position: absolute;
@@ -230,6 +274,10 @@ picture {
         transform: translateX(-50%);
         padding: 0 20rem;
         z-index: 9;
+        @include screen("mo") {
+          max-width: 100%;
+          top: 60px;
+        }
       }
       .slide_content {
         color: #121212;
@@ -240,15 +288,22 @@ picture {
           font-size: 72rem;
           line-height: 98rem;
           @include screen("mo") {
+            font-size: 40px;
+            line-height: 48px;
+            margin-bottom: 16px;
           }
           .underline {
-            box-shadow: inset 0px -38rem 0px 0px #F7A035;
+            box-shadow: inset 0px -38rem 0px 0px #f7a035;
           }
         }
         .kv_text {
           font-size: 28rem;
           font-weight: 500;
           margin-bottom: 100rem;
+          @include screen("mo") {
+            font-size: 16px;
+            margin-bottom: 37px;
+          }
         }
       }
     }
@@ -267,6 +322,18 @@ picture {
       z-index: 9;
       border-radius: 50rem;
       padding: 11rem 0 11rem 23rem;
+      @include screen("mo") {
+        position: relative;
+        background-color: unset;
+        border: none;
+        backdrop-filter: none;
+        bottom: 77rem;
+        width: 100%;
+        height: auto;
+        right: auto;
+        padding: 0 24rem;
+        justify-content: space-between;
+      }
     }
     .swiper1 .swiper-pagination1 {
       position: relative;
@@ -289,6 +356,21 @@ picture {
       margin: 0;
       top: 50%;
       transform: translateY(-50%);
+      @include screen("mo") {
+        position: absolute;
+        top: unset;
+        transform: unset;
+      }
+    }
+    .swiper1 .swiper-button-next1 {
+      @include screen("mo") {
+        right: 24px;
+      }
+    }
+    .swiper1 .swiper-button-prev1 {
+      @include screen("mo") {
+        left: 24px;
+      }
     }
     .swiper1 .swiper-button-prev1:after,
     .swiper1 .swiper-button-next1:after {
@@ -320,9 +402,39 @@ picture {
       gap: 10rem;
       align-items: center;
       top: 1rem;
+      @include screen("mo") {
+        display: none;
+      }
     }
     .swiper1 .swiper-pagination-fraction .swiper-pagination-current {
       color: #121212;
+    }
+    /* 진행 바 스타일 */
+    .swiper1 .pagi {
+      width: calc(100% - 48px);
+      height: 1px;
+      background-color: #121212;
+      position: relative;
+      bottom: 13px;
+      z-index: 9;
+      margin: 0 24px;
+    }
+
+    .swiper1 .pagi .progress {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      transform-origin: left;
+      transform: scaleX(0);
+      background-color: #fff;
+      transition: transform 3s ease;
+    }
+    /* 진행 바 활성화 시 scaleX 변경 */
+    .swiper1 .pagi.active .progress {
+      transform: scaleX(1);
     }
   }
   .main_tab_wrap {
@@ -399,8 +511,8 @@ picture {
                 &.discounted {
                   font-weight: 500;
                   text-decoration: line-through; /* 세일 가격이 있을 때 줄 긋기 */
-                  color: #AFAFAF;
-                }                
+                  color: #afafaf;
+                }
               }
               .product_discount {
                 font-size: 22rem;
@@ -469,7 +581,7 @@ picture {
     }
   }
   .main_about_section {
-    background-color: #F0D1FF;
+    background-color: #f0d1ff;
     padding: 160rem 0 130rem;
     .layout_visual {
       display: flex;
@@ -497,6 +609,10 @@ picture {
     .about_img-wrap {
       width: 941rem;
       height: 715rem;
+      @include screen("mo") {
+        width: 100%;
+        height: auto;
+      }
       img {
         width: 100%;
         height: 100%;

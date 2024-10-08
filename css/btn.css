@@ -1,3 +1,5 @@
+/* Responsive */
+/* Ellipsis */
 .btn {
   display: inline-block;
   font-size: 16rem;
@@ -6,6 +8,13 @@
   text-decoration: none;
   border-radius: 50rem;
   width: 245rem;
+  box-sizing: border-box;
+}
+@media (max-width: 768px) {
+  .btn {
+    padding: 13px 20px;
+    font-size: 12px;
+  }
 }
 .btn.btn_black {
   background-color: #000000;
@@ -33,4 +42,10 @@
 .btn.btn_arrow_black::after {
   background: url("../images/ico_arrow_black.svg") no-repeat center;
   background-size: cover;
+}
+.btn.soon {
+  background-color: #E6E6E6;
+  border: 1px solid #999999;
+  color: #999999;
+  width: auto;
 }

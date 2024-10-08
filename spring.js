@@ -20,16 +20,15 @@ document.getElementById('topBtn').onclick = function() {
 
 // 첫 번째 스와이퍼
 const swiper1 = new Swiper(".swiper1", {
-  loof: true,
-  spaceBetween: 30,
-  centeredSlides: true,
-  // autoplay: {
-  //   delay: 2500,
-  //   disableOnInteraction: false,
-  // },
+  spaceBetween: 0,
+  autoplay: {
+    delay: 3000,
+    disableOnInteraction: false,
+  },
   pagination: {
     el: ".swiper-pagination1",
     type: "fraction",
+    clickable: true,
     renderFraction: function (currentClass, totalClass) {
       return (
         '<span class="' +
@@ -50,7 +49,46 @@ const swiper1 = new Swiper(".swiper1", {
     nextEl: ".swiper-button-next1",
     prevEl: ".swiper-button-prev1",
   },
+  breakpoints: {
+    // min
+    768: {
+      spaceBetween: 30,
+      allowTouchMove: false,
+    },
+  },
+  on: {
+    init: function () {
+      startProgress(); // 첫 슬라이드에서 진행 바 시작
+    },
+    slideChangeTransitionStart: function () {
+      resetProgress(); // 슬라이드 전환 시 진행 바 초기화
+    },
+    slideChangeTransitionEnd: function () {
+      startProgress(); // 슬라이드 전환이 끝난 후 진행 바 애니메이션 시작
+    }
+  }
 });
+
+  // 진행 바 애니메이션 시작
+  function startProgress() {
+    var progressBar = document.querySelector('.swiper1 .pagi .progress');
+    if (progressBar) {
+      progressBar.style.transform = 'scaleX(1)'; // 0에서 100%까지 진행
+    }
+  }
+
+  // 진행 바 초기화
+  function resetProgress() {
+    var progressBar = document.querySelector('.swiper1 .pagi .progress');
+    if (progressBar) {
+      progressBar.style.transform = 'scaleX(0)'; // 0으로 초기화
+      progressBar.style.transition = 'none'; // 애니메이션 없이 즉시 0으로 설정
+
+      setTimeout(function () {
+        progressBar.style.transition = 'transform 3s linear'; // 3초 동안 부드럽게 변환되도록 다시 설정
+      }, 50); // 약간의 지연 후 애니메이션 재설정
+    }
+  }
 
 fetch(
   "https://3dcoloring.co.kr/wp-json/wc/v3/products?consumer_key=ck_311bafa9a4027c0cdfd31d0310f771b93ad001b0&consumer_secret=cs_2285ceb45b51bc04a2230d62f45c8d6eb0180709&category=402&orderby=menu_order&order=asc"
@@ -86,12 +124,20 @@ fetch(
 
     // 두 번째 스와이퍼
     const swiper2 = new Swiper(".swiper2", {
-      slidesPerView: 5,
-      spaceBetween: 10,
+      slidesPerView: 1,
+      spaceBetween: 0,
       navigation: {
         nextEl: ".swiper-button-next2",
         prevEl: ".swiper-button-prev2",
       },
+			breakpoints: {
+				// min
+				768: {
+					slidesPerView: "5",
+					spaceBetween: 10,
+					allowTouchMove: false,
+				},
+			},
     });
   })
   .catch((error) => console.error("Error:", error));
