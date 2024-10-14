@@ -119,7 +119,6 @@ function processProductData(product, productSlides) {
         .map(
           (groupedProduct) => `
           <div class="grouped_product_item">
-            <span>${groupedProduct.name}</span>
             <span>${groupedProduct.price}원</span>
           </div>
         `
@@ -177,21 +176,23 @@ fetch(
     });
 
     // 두 번째 스와이퍼 초기화
-    const swiper2 = new Swiper(".swiper2", {
-      slidesPerView: 1,
-      spaceBetween: 0,
-      navigation: {
-        nextEl: ".swiper-button-next2",
-        prevEl: ".swiper-button-prev2",
-      },
-      breakpoints: {
-        768: {
-          slidesPerView: 5,
-          spaceBetween: 10,
-          allowTouchMove: false,
+    setInterval(() => {      
+      const swiper2 = new Swiper(".swiper2", {
+        slidesPerView: 1,
+        spaceBetween: 0,
+        navigation: {
+          nextEl: ".swiper-button-next2",
+          prevEl: ".swiper-button-prev2",
         },
-      },
-    });
+        breakpoints: {
+          768: {
+            slidesPerView: 5,
+            spaceBetween: 10,
+            
+          },
+        },
+      });
+    }, 50);
   })
   .catch((error) => console.error("Error:", error));
 
