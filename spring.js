@@ -90,6 +90,81 @@ const swiper1 = new Swiper(".swiper1", {
     }
   }
 
+
+  
+// 그룹 상품의 개별 상품 가격을 가져오는 함수
+function fetchGroupedProductPrices(groupedProductIds) {
+  const promises = groupedProductIds.map((id) =>
+    fetch(
+      `https://3dcoloring.co.kr/wp-json/wc/v3/products/${id}?consumer_key=ck_311bafa9a4027c0cdfd31d0310f771b93ad001b0&consumer_secret=cs_2285ceb45b51bc04a2230d62f45c8d6eb0180709`
+    ).then((response) => response.json())
+  );
+  return Promise.all(promises);
+}
+
+// 상품 데이터를 처리하는 함수
+function processProductData(product, productSlides) {
+  const slideDiv = document.createElement("div");
+  slideDiv.classList.add("swiper-slide");
+
+  // 세일 가격이 있는지 여부에 따라 클래스 설정
+  const productPriceClass = product.sale_price
+    ? "product_price discounted"
+    : "product_price";
+
+  // 그룹 상품일 경우 grouped_products 배열에 있는 상품들의 가격을 가져와 표시
+  if (product.grouped_products && product.grouped_products.length > 0) {
+    fetchGroupedProductPrices(product.grouped_products).then((groupedProducts) => {
+      const groupedPricesHtml = groupedProducts
+        .map(
+          (groupedProduct) => `
+          <div class="grouped_product_item">
+            <span>${groupedProduct.name}</span>
+            <span>${groupedProduct.price}원</span>
+          </div>
+        `
+        )
+        .join("");
+
+      slideDiv.innerHTML = `
+        <a href="${product.permalink}" target="_blank">
+          <div class="slide_content_wrap">
+            <img src="${product.images[0]?.src}" alt="${product.name}">
+            <div class="slide_product_title">${product.name}</div>
+            <div class="product_price_wrap">
+              ${product.sale_price ? `<div class="product_discount">${product.sale_price}원</div>` : ""}
+            </div>
+            <div class="grouped_products_prices">
+              ${groupedPricesHtml}
+            </div>
+          </div>
+        </a>
+      `;
+      productSlides.appendChild(slideDiv);
+    });
+  } else {
+    // 일반 상품일 경우
+    slideDiv.innerHTML = `
+      <a href="${product.permalink}" target="_blank">
+        <div class="slide_content_wrap">
+          <img src="${product.images[0]?.src}" alt="${product.name}">
+          <div class="slide_product_title">${product.name}</div>
+          <div class="product_price_wrap">
+            <div class="${productPriceClass}">${product.regular_price}원</div>
+            ${
+              product.price
+                ? `<div class="product_discount">${product.price}원</div>`
+                : ""
+            }
+          </div>
+        </div>
+      </a>
+    `;
+    productSlides.appendChild(slideDiv);
+  }
+}
+
+// 메인 fetch 호출
 fetch(
   "https://3dcoloring.co.kr/wp-json/wc/v3/products?consumer_key=ck_311bafa9a4027c0cdfd31d0310f771b93ad001b0&consumer_secret=cs_2285ceb45b51bc04a2230d62f45c8d6eb0180709&category=402&orderby=menu_order&order=asc"
 )
@@ -98,31 +173,10 @@ fetch(
     const productSlides = document.getElementById("product-slides1");
 
     data.forEach((product) => {
-      const slideDiv = document.createElement("div");
-      slideDiv.classList.add("swiper-slide");
-      // 세일 가격이 있는지 여부에 따라 클래스 설정
-      const productPriceClass = product.sale_price
-        ? "product_price discounted"
-        : "product_price";
-
-      slideDiv.innerHTML = `
-        <div class="slide_content_wrap">
-          <img src="${product.images[0]?.src}" alt="${product.name}">
-          <div class="slide_product_title">${product.name}</div>
-          <div class="product_price_wrap">
-            <div class="${productPriceClass}">${product.price}원</div>
-            ${
-              product.sale_price
-                ? `<div class="product_discount">${product.sale_price}원</div>`
-                : ""
-            }
-          </div>
-        </div>
-      `;
-      productSlides.appendChild(slideDiv);
+      processProductData(product, productSlides);
     });
 
-    // 두 번째 스와이퍼
+    // 두 번째 스와이퍼 초기화
     const swiper2 = new Swiper(".swiper2", {
       slidesPerView: 1,
       spaceBetween: 0,
@@ -130,17 +184,17 @@ fetch(
         nextEl: ".swiper-button-next2",
         prevEl: ".swiper-button-prev2",
       },
-			breakpoints: {
-				// min
-				768: {
-					slidesPerView: "5",
-					spaceBetween: 10,
-					allowTouchMove: false,
-				},
-			},
+      breakpoints: {
+        768: {
+          slidesPerView: 5,
+          spaceBetween: 10,
+          allowTouchMove: false,
+        },
+      },
     });
   })
   .catch((error) => console.error("Error:", error));
+
 
 // 세 번째 스와이퍼
 const swiper3 = new Swiper(".swiper3", {
